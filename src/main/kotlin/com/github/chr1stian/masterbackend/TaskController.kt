@@ -1,7 +1,7 @@
 package com.github.chr1stian.masterbackend
 
+
 import javafx.fxml.FXML
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -19,6 +19,8 @@ class TaskController {
         var dbf = DocumentBuilderFactory.newInstance()
         var db = dbf.newDocumentBuilder()
         var doc = db.parse("/Users/christiannyvoll/Documents/Master/xml/ID_54074230-item.xml")
+
+        println("title: $title")
 
         var assessmentItem = doc.firstChild
         var attr = assessmentItem.attributes
