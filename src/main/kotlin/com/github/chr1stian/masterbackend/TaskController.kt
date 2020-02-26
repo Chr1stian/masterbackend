@@ -2,9 +2,8 @@ package com.github.chr1stian.masterbackend
 
 
 import javafx.fxml.FXML
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
@@ -35,6 +34,17 @@ class TaskController {
         // t.transform(source, result)
         return source
     }
+
+    @RequestMapping("/tasks/{input}")
+    fun getTasks(@PathVariable input: Any) {
+        println(input)
+    }
+
+    @PostMapping("/tasks")
+    fun createTasks(@Valid @RequestBody input: Any){
+        println("Request to create task: $input")
+    }
+
 
 
 }
