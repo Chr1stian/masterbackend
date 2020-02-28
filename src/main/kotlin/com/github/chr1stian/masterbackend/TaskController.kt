@@ -3,8 +3,6 @@ package com.github.chr1stian.masterbackend
 
 import javafx.fxml.FXML
 import org.springframework.web.bind.annotation.*
-import java.util.*
-import javax.validation.Valid
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
@@ -46,6 +44,15 @@ class TaskController {
         println("Request to create task: $input")
 
         return "Task created with following task label: ${input.label}"
+    }
+
+    @PostMapping("/test")
+    fun test(@RequestBody input: Task): DOMSource {
+        println("Request to create task: $input")
+
+        val builtTask = buildTask(input)
+
+        return builtTask
     }
 
 
