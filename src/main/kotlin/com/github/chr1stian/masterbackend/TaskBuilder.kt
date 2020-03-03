@@ -36,6 +36,7 @@ fun buildTask(task: Task): DOMSource {
 
     // Blockquote | The surrounding text/code with GAPS (drop-fields)
     val blockquote = doc.createElement("blockquote")
+    var gapNumber4: Int = 1
     for (item in task.splitCode) {
         if (item.size == 1) {
             val element = doc.createElement("p")
@@ -45,10 +46,11 @@ fun buildTask(task: Task): DOMSource {
             val element = doc.createElement("p")
             element.appendChild(doc.createTextNode(item[0]))
             val gap = doc.createElement("gap")
-            gap.setAttribute("identifier", "GAP1")
+            gap.setAttribute("identifier", "GAP$gapNumber4")
             element.appendChild(gap)
             element.appendChild(doc.createTextNode(item[2]))
             blockquote.appendChild(element)
+            gapNumber4++
         }
 
     }
