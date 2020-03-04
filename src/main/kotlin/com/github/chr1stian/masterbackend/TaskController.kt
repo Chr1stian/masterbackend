@@ -62,9 +62,9 @@ class TaskController {
         return builtTask
     }
 
-    @GetMapping(value = ["/zip-download"], produces = ["application/zip"])
+    @PostMapping(value = ["/zip-download"], produces = ["application/zip"])
     @Throws(IOException::class)
-    fun zipDownload(@RequestParam name: List<String>, response: HttpServletResponse) {
+    fun zipDownload(@RequestParam name: List<String>, @RequestBody task: Task, response: HttpServletResponse) {
         val zipOut = ZipOutputStream(response.outputStream)
         for (fileName in name) {
             val fileBasePath = "/Users/christiannyvoll/Documents/Master/master-backend/"
