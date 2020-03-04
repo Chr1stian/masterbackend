@@ -2,10 +2,18 @@ package com.github.chr1stian.masterbackend
 
 
 import javafx.fxml.FXML
+import org.springframework.core.io.FileSystemResource
+import org.springframework.http.HttpHeaders
+import org.springframework.util.StreamUtils
 import org.springframework.web.bind.annotation.*
+import java.io.IOException
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
+import javax.servlet.http.HttpServletResponse
 import javax.xml.parsers.DocumentBuilderFactory
 import javax.xml.transform.TransformerFactory
 import javax.xml.transform.dom.DOMSource
+
 
 @RestController
 @RequestMapping("/api")
@@ -51,9 +59,26 @@ class TaskController {
         println("Request to create task: $input")
 
         val builtTask = buildTask(input)
-
         return builtTask
     }
 
-
+    @GetMapping(value = ["/zip-download"], produces = ["application/zip"])
+    @Throws(IOException::class)
+    fun zipDownload(@RequestParam name: List<String>, response: HttpServletResponse) {
+        val zipOut = ZipOutputStream(response.outputStream)
+        for (fileName in name) {
+            val fileBasePath = "/Users/christiannyvoll/Documents/Master/master-backend/"
+            val resource = FileSystemResource(fileBasePath + fileName)
+            val zipEntry = ZipEntry(resource.filename)
+            zipEntry.size = resource.contentLength()
+            zipOut.putNextEntry(zipEntry)
+            StreamUtils.copy(resource.inputStream, zipOut)
+            zipOut.closeEntry()
+        }
+        zipOut.finish()
+        zipOut.close()
+        response.status = HttpServletResponse.SC_OK
+        val zipFileName = "generatedZip"
+        response.addHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"$zipFileName\"")
+    }
 }
