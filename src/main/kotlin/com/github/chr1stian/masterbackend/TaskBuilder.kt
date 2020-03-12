@@ -17,22 +17,27 @@ fun buildTask(task: Task): DOMSource {
     mapping.setAttribute("defaultValue", "0")
     val blockquote = doc.createElement("blockquote")
 
-    var number: Int = 1
+    // Create a pool of the available answer numbers
+    var answerNumbers: MutableList<Int> = (1..(task.splitCode.count { e -> e.size != 1 })).toList().toMutableList()
+    var gapNumber = 1
+
     for (code in task.splitCode) {
+
+        blockquote.appendChild(createBlockQuote(doc = doc, code = code, gapNumber = gapNumber))
+
+
         if (code.size != 1) {
-            createGapText(doc, code, number)
+            // Extract a random answer number and remove it from the pool
+            val answerNumber = (answerNumbers).random()
+            answerNumbers.removeAt(answerNumbers.indexOf(answerNumber))
 
+            createGapText(doc = doc, code = code, answerNumber = answerNumber)
+            correctResponse.appendChild(createValue(doc = doc, answerNumber = answerNumber, gapNumber = gapNumber))
+            mapping.appendChild(createMapEntry(doc = doc, answerNumber = answerNumber, gapNumber = gapNumber))
+            mapMemberDeclaration(doc = doc, answerNumber = answerNumber, gapNumber = gapNumber)
 
-            // mapResponseDeclaration(doc, number, number)
-            correctResponse.appendChild(createValue(doc, number, number))
-            mapping.appendChild(createMapEntry(doc, number, number))
-
-
-
-            mapMemberDeclaration(doc, number, number)
+            gapNumber++
         }
-        blockquote.appendChild(createBlockQuote(doc, code, number))
-        number++
     }
 
     val gapMatchInteraction = doc.getElementsByTagName("gapMatchInteraction").item(0)
