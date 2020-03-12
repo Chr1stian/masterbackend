@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assessmentItem xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd" identifier="54414916" title="Inline-Gap-Match" adaptive="false" timeDependent="false" inspera:objectType="content_question_qti2_gapmatch" 
+    xmlns:inspera="http://www.inspera.no/qti" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1">
+    <responseDeclaration identifier="RESPONSE" cardinality="multiple" baseType="directedPair">
+    </responseDeclaration>
+    <outcomeDeclaration identifier="SCORE" cardinality="single" baseType="float">
+        <defaultValue>
+            <value>0</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <outcomeDeclaration identifier="FEEDBACK" cardinality="single" baseType="identifier"/>
+    <templateDeclaration identifier="SCORE_EACH_CORRECT" cardinality="single" baseType="float">
+        <defaultValue>
+            <value>1</value>
+        </defaultValue>
+    </templateDeclaration>
+    <templateDeclaration identifier="SCORE_EACH_WRONG" cardinality="single" baseType="float">
+        <defaultValue>
+            <value>0</value>
+        </defaultValue>
+    </templateDeclaration>
+    <templateDeclaration identifier="SCORE_ALL_CORRECT" cardinality="single" baseType="float">
+        <defaultValue>
+            <value/>
+        </defaultValue>
+    </templateDeclaration>
+    <templateDeclaration identifier="SCORE_MINIMUM" cardinality="single" baseType="float">
+        <defaultValue>
+            <value/>
+        </defaultValue>
+    </templateDeclaration>
+    <templateDeclaration identifier="SCORE_UNANSWERED" cardinality="single" baseType="float">
+        <defaultValue>
+            <value>0</value>
+        </defaultValue>
+    </templateDeclaration>
+    <itemBody inspera:defaultLanguage="no_no" inspera:supportedLanguages="no_no">
+        <div class="question-main-illustration">
+        </div>
+        <p style="">
+            <strong>Oppgave: </strong>Dra riktig kodelinje til feltene nedenfor slik at funksjonen virker korrekt.</p>
+        <gapMatchInteraction responseIdentifier="RESPONSE" inspera:type="richText" inspera:tokenSize="autoSize" inspera:tokenPosition="top" inspera:tokenOrder="random" inspera:reuseAlternatives="false">
+            <prompt/>
+        </gapMatchInteraction>
+    </itemBody>
+    <responseProcessing>
+        <responseCondition>
+            <responseIf>
+                <and>
+                    <isNull>
+                        <variable identifier="RESPONSE"/>
+                    </isNull>
+                </and>
+                <setOutcomeValue identifier="SCORE">
+                    <variable identifier="SCORE_UNANSWERED"/>
+                </setOutcomeValue>
+            </responseIf>
+            <responseElse>
+                <setOutcomeValue identifier="SCORE">
+                    <sum>
+                        <variable identifier="SCORE"/>
+                        <mapResponse identifier="RESPONSE"/>
+                    </sum>
+                </setOutcomeValue>
+            </responseElse>
+        </responseCondition>
+        <responseCondition>
+            <responseIf>
+                <and>
+                    <isNull>
+                        <variable identifier="RESPONSE"/>
+                    </isNull>
+                </and>
+                <setOutcomeValue identifier="FEEDBACK">
+                    <baseValue baseType="identifier">feedback_unanswered</baseValue>
+                </setOutcomeValue>
+            </responseIf>
+            <responseElseIf>
+                <and>
+                </and>
+                <setOutcomeValue identifier="FEEDBACK">
+                    <baseValue baseType="identifier">feedback_correct</baseValue>
+                </setOutcomeValue>
+            </responseElseIf>
+            <responseElseIf>
+                <or>
+                </or>
+                <setOutcomeValue identifier="FEEDBACK">
+                    <baseValue baseType="identifier">feedback_partially_correct</baseValue>
+                </setOutcomeValue>
+            </responseElseIf>
+            <responseElse>
+                <setOutcomeValue identifier="FEEDBACK">
+                    <baseValue baseType="identifier">feedback_wrong</baseValue>
+                </setOutcomeValue>
+            </responseElse>
+        </responseCondition>
+        <responseCondition inspera:type="max_score_upper_bound">
+            <responseIf>
+                <and>
+                    <gte>
+                        <variable identifier="SCORE"/>
+                        <baseValue baseType="float">6.0</baseValue>
+                    </gte>
+                </and>
+                <setOutcomeValue identifier="SCORE">
+                    <baseValue baseType="float">6.0</baseValue>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+    </responseProcessing>
+    <modalFeedback outcomeIdentifier="FEEDBACK" identifier="feedback_unanswered" showHide="show"/>
+    <modalFeedback outcomeIdentifier="FEEDBACK" identifier="feedback_wrong" showHide="show"/>
+    <modalFeedback outcomeIdentifier="FEEDBACK" identifier="feedback_correct" showHide="show"/>
+    <modalFeedback outcomeIdentifier="FEEDBACK" identifier="feedback_partially_correct" showHide="show"/>
+</assessmentItem>

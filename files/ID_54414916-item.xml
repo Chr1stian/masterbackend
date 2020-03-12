@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><assessmentItem xmlns="http://www.imsglobal.org/xsd/imsqti_v2p1" xmlns:inspera="http://www.inspera.no/qti" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" adaptive="false" identifier="54414916" inspera:objectType="content_question_qti2_gapmatch" timeDependent="false" title="Inline-Gap-Match" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsqti_v2p1 http://www.imsglobal.org/xsd/qti/qtiv2p1/imsqti_v2p1.xsd">
+    <responseDeclaration baseType="directedPair" cardinality="multiple" identifier="RESPONSE">
+    <correctResponse><value>A3 GAP1</value><value>A4 GAP2</value><value>A1 GAP3</value><value>A5 GAP4</value><value>A2 GAP5</value></correctResponse><mapping defaultValue="0"><mapEntry mapKey="A3 GAP1" mappedValue="1"/><mapEntry mapKey="A4 GAP2" mappedValue="1"/><mapEntry mapKey="A1 GAP3" mappedValue="1"/><mapEntry mapKey="A5 GAP4" mappedValue="1"/><mapEntry mapKey="A2 GAP5" mappedValue="1"/></mapping></responseDeclaration>
+    <outcomeDeclaration baseType="float" cardinality="single" identifier="SCORE">
+        <defaultValue>
+            <value>0</value>
+        </defaultValue>
+    </outcomeDeclaration>
+    <outcomeDeclaration baseType="identifier" cardinality="single" identifier="FEEDBACK"/>
+    <templateDeclaration baseType="float" cardinality="single" identifier="SCORE_EACH_CORRECT">
+        <defaultValue>
+            <value>1</value>
+        </defaultValue>
+    </templateDeclaration>
+    <templateDeclaration baseType="float" cardinality="single" identifier="SCORE_EACH_WRONG">
+        <defaultValue>
+            <value>0</value>
+        </defaultValue>
+    </templateDeclaration>
+    <templateDeclaration baseType="float" cardinality="single" identifier="SCORE_ALL_CORRECT">
+        <defaultValue>
+            <value/>
+        </defaultValue>
+    </templateDeclaration>
+    <templateDeclaration baseType="float" cardinality="single" identifier="SCORE_MINIMUM">
+        <defaultValue>
+            <value/>
+        </defaultValue>
+    </templateDeclaration>
+    <templateDeclaration baseType="float" cardinality="single" identifier="SCORE_UNANSWERED">
+        <defaultValue>
+            <value>0</value>
+        </defaultValue>
+    </templateDeclaration>
+    <itemBody inspera:defaultLanguage="no_no" inspera:supportedLanguages="no_no">
+        <div class="question-main-illustration">
+        </div>
+        <p style="">
+            <strong>Oppgave: </strong>Dra riktig kodelinje til feltene nedenfor slik at funksjonen virker korrekt.</p>
+        <gapMatchInteraction inspera:reuseAlternatives="false" inspera:tokenOrder="random" inspera:tokenPosition="top" inspera:tokenSize="autoSize" inspera:type="richText" responseIdentifier="RESPONSE">
+            <prompt/>
+        <gapText identifier="A3" matchMax="0" matchMin="0"><span>ne</span></gapText><gapText identifier="A4" matchMax="0" matchMin="0"><span>n</span></gapText><gapText identifier="A1" matchMax="0" matchMin="0"><span>n</span></gapText><gapText identifier="A5" matchMax="0" matchMin="0"><span>n</span></gapText><gapText identifier="A2" matchMax="0" matchMin="0"><span>n</span></gapText><blockquote><p>testcode1</p><p>li<gap identifier="GAP1"/> 2</p><p>line 3</p><p>li<gap identifier="GAP2"/>e 4</p><p>line 3</p><p>li<gap identifier="GAP3"/>e 4</p><p>line 3</p><p>li<gap identifier="GAP4"/>e 4</p><p>line 3</p><p>li<gap identifier="GAP5"/>e 4</p></blockquote></gapMatchInteraction>
+    </itemBody>
+    <responseProcessing>
+        <responseCondition>
+            <responseIf>
+                <and>
+                    <isNull>
+                        <variable identifier="RESPONSE"/>
+                    </isNull>
+                </and>
+                <setOutcomeValue identifier="SCORE">
+                    <variable identifier="SCORE_UNANSWERED"/>
+                </setOutcomeValue>
+            </responseIf>
+            <responseElse>
+                <setOutcomeValue identifier="SCORE">
+                    <sum>
+                        <variable identifier="SCORE"/>
+                        <mapResponse identifier="RESPONSE"/>
+                    </sum>
+                </setOutcomeValue>
+            </responseElse>
+        </responseCondition>
+        <responseCondition>
+            <responseIf>
+                <and>
+                    <isNull>
+                        <variable identifier="RESPONSE"/>
+                    </isNull>
+                </and>
+                <setOutcomeValue identifier="FEEDBACK">
+                    <baseValue baseType="identifier">feedback_unanswered</baseValue>
+                </setOutcomeValue>
+            </responseIf>
+            <responseElseIf>
+                <and>
+                <member><baseValue baseType="directedPair">A3 GAP1</baseValue><variable identifier="RESPONSE"/></member><member><baseValue baseType="directedPair">A4 GAP2</baseValue><variable identifier="RESPONSE"/></member><member><baseValue baseType="directedPair">A1 GAP3</baseValue><variable identifier="RESPONSE"/></member><member><baseValue baseType="directedPair">A5 GAP4</baseValue><variable identifier="RESPONSE"/></member><member><baseValue baseType="directedPair">A2 GAP5</baseValue><variable identifier="RESPONSE"/></member></and>
+                <setOutcomeValue identifier="FEEDBACK">
+                    <baseValue baseType="identifier">feedback_correct</baseValue>
+                </setOutcomeValue>
+            </responseElseIf>
+            <responseElseIf>
+                <or>
+                <member><baseValue baseType="directedPair">A3 GAP1</baseValue><variable identifier="RESPONSE"/></member><member><baseValue baseType="directedPair">A4 GAP2</baseValue><variable identifier="RESPONSE"/></member><member><baseValue baseType="directedPair">A1 GAP3</baseValue><variable identifier="RESPONSE"/></member><member><baseValue baseType="directedPair">A5 GAP4</baseValue><variable identifier="RESPONSE"/></member><member><baseValue baseType="directedPair">A2 GAP5</baseValue><variable identifier="RESPONSE"/></member></or>
+                <setOutcomeValue identifier="FEEDBACK">
+                    <baseValue baseType="identifier">feedback_partially_correct</baseValue>
+                </setOutcomeValue>
+            </responseElseIf>
+            <responseElse>
+                <setOutcomeValue identifier="FEEDBACK">
+                    <baseValue baseType="identifier">feedback_wrong</baseValue>
+                </setOutcomeValue>
+            </responseElse>
+        </responseCondition>
+        <responseCondition inspera:type="max_score_upper_bound">
+            <responseIf>
+                <and>
+                    <gte>
+                        <variable identifier="SCORE"/>
+                        <baseValue baseType="float">6.0</baseValue>
+                    </gte>
+                </and>
+                <setOutcomeValue identifier="SCORE">
+                    <baseValue baseType="float">6.0</baseValue>
+                </setOutcomeValue>
+            </responseIf>
+        </responseCondition>
+    </responseProcessing>
+    <modalFeedback identifier="feedback_unanswered" outcomeIdentifier="FEEDBACK" showHide="show"/>
+    <modalFeedback identifier="feedback_wrong" outcomeIdentifier="FEEDBACK" showHide="show"/>
+    <modalFeedback identifier="feedback_correct" outcomeIdentifier="FEEDBACK" showHide="show"/>
+    <modalFeedback identifier="feedback_partially_correct" outcomeIdentifier="FEEDBACK" showHide="show"/>
+</assessmentItem>
