@@ -33,3 +33,6 @@ out/
 
 ### Mac file system ###
 .DS_Store
+
+### Build files ###
+**/src/main/resources/static/*

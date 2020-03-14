@@ -35,11 +35,11 @@ class TaskController {
         var nodeAttr = attr.getNamedItem("title")
         nodeAttr.textContent = title
 
-        var tf = TransformerFactory.newInstance()
-        var t = tf.newTransformer()
+        // var tf = TransformerFactory.newInstance()
+        // var t = tf.newTransformer()
         var source = DOMSource(doc)
         // Saves changes to old file
-        var result = StreamResult(File("/Users/christiannyvoll/Documents/Master/xml/ID_54074230-item.xml"))
+        // var result = StreamResult(File("/Users/christiannyvoll/Documents/Master/xml/ID_54074230-item.xml"))
         // t.transform(source, result)
         return source
     }
@@ -67,16 +67,15 @@ class TaskController {
     @PostMapping(value = ["/zip-download"], produces = ["application/zip"])
     @Throws(IOException::class)
     fun zipDownload(@RequestParam name: List<String>, @RequestBody task: Task, response: HttpServletResponse) {
-
         val tf = TransformerFactory.newInstance()
         val t = tf.newTransformer()
-        val result = StreamResult(File("/Users/christiannyvoll/Documents/Master/master-backend/files/ID_54414916-item.xml"))
+        val result = StreamResult(File("files/ID_54414916-item.xml"))
         val source = buildTask(task)
         t.transform(source, result)
 
         val zipOut = ZipOutputStream(response.outputStream)
         for (fileName in name) {
-            val fileBasePath = "/Users/christiannyvoll/Documents/Master/master-backend/files/"
+            val fileBasePath = "files/"
             val resource = FileSystemResource(fileBasePath + fileName)
             val zipEntry = ZipEntry(resource.filename)
             zipEntry.size = resource.contentLength()
