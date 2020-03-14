@@ -64,14 +64,31 @@ class TaskController {
         return builtTask
     }
 
+    @PostMapping("/manifest")
+    fun manifest(@RequestBody task: Task): DOMSource {
+        println("Request to create manifest, task: $task")
+
+        return buildManifest(task.label)
+    }
+
     @PostMapping(value = ["/zip-download"], produces = ["application/zip"])
     @Throws(IOException::class)
-    fun zipDownload(@RequestParam name: List<String>, @RequestBody task: Task, response: HttpServletResponse) {
+    fun zipDownload(@RequestBody task: Task, response: HttpServletResponse) {
+        val taskName = task.label
+
         val tf = TransformerFactory.newInstance()
         val t = tf.newTransformer()
-        val result = StreamResult(File("files/ID_54414916-item.xml"))
-        val source = buildTask(task)
-        t.transform(source, result)
+        // Task file
+        val taskFile = StreamResult(File("files/$taskName.xml"))
+        val builtTask = buildTask(task)
+        t.transform(builtTask, taskFile)
+        // Manifest file
+        val manifestFile = StreamResult(File("files/imsmanifest.xml"))
+        val builtManifest = buildManifest(taskName)
+        t.transform(builtManifest, manifestFile)
+
+
+        val name: Array<String> = arrayOf("$taskName.xml", "imsmanifest.xml")
 
         val zipOut = ZipOutputStream(response.outputStream)
         for (fileName in name) {

@@ -36,3 +36,6 @@ out/
 
 ### Build files ###
 **/src/main/resources/static/*
+files/*
+!imsmanifest_skeleton.xml
+!inline_gap_match_skeleton.xml

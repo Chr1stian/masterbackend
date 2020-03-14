@@ -9,7 +9,7 @@ import javax.xml.transform.dom.DOMSource
 fun buildTask(task: Task): DOMSource {
     val dbf = DocumentBuilderFactory.newInstance()
     val db = dbf.newDocumentBuilder()
-    val doc = db.parse("/Users/christiannyvoll/Documents/Master/xml/inline-gap-match/inline_gap_match.xml")
+    val doc = db.parse("files/inline_gap_match_skeleton.xml")
 
     val responseDeclaration: Node = doc.getElementsByTagName("responseDeclaration").item(0)
     val correctResponse = doc.createElement("correctResponse")
@@ -44,6 +44,8 @@ fun buildTask(task: Task): DOMSource {
     gapMatchInteraction.appendChild(blockquote)
     responseDeclaration.appendChild(correctResponse)
     responseDeclaration.appendChild(mapping)
+
+    doc.firstChild.attributes.getNamedItem("title").textContent = task.label
 
 
     var source = DOMSource(doc)
