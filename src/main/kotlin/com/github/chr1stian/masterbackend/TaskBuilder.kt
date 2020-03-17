@@ -31,13 +31,19 @@ fun buildTask(task: Task): DOMSource {
             val answerNumber = (answerNumbers).random()
             answerNumbers.removeAt(answerNumbers.indexOf(answerNumber))
 
-            createGapText(doc = doc, code = code, answerNumber = answerNumber)
+            createGapText(doc = doc, code = code[1], answerNumber = answerNumber)
             correctResponse.appendChild(createValue(doc = doc, answerNumber = answerNumber, gapNumber = gapNumber))
             mapping.appendChild(createMapEntry(doc = doc, answerNumber = answerNumber, gapNumber = gapNumber))
             mapMemberDeclaration(doc = doc, answerNumber = answerNumber, gapNumber = gapNumber)
 
             gapNumber++
         }
+    }
+
+    // Add distractors
+    for (code in task.distractors) {
+        createGapText(doc, code, gapNumber)
+        gapNumber++
     }
 
     val gapMatchInteraction = doc.getElementsByTagName("gapMatchInteraction").item(0)
@@ -53,14 +59,14 @@ fun buildTask(task: Task): DOMSource {
 }
 
 // GapText | The drag/droppable elements [splitCode = true]
-fun createGapText(doc: Document, code: Array<String>, answerNumber: Int): Document {
+fun createGapText(doc: Document, code: String, answerNumber: Int): Document {
     val gapMatchInteraction = doc.getElementsByTagName("gapMatchInteraction").item(0)
     val gapText = doc.createElement("gapText")
     gapText.setAttribute("identifier", "A$answerNumber")
     gapText.setAttribute("matchMax", "0")
     gapText.setAttribute("matchMin", "0")
     val span = doc.createElement("span")
-    span.appendChild(doc.createTextNode(code[1]))
+    span.appendChild(doc.createTextNode(code))
     gapText.appendChild(span)
     gapMatchInteraction.appendChild(gapText)
 
