@@ -6,7 +6,6 @@ plugins {
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     id("org.openjfx.javafxplugin") version "0.0.8"
     id("org.siouan.frontend") version "1.3.0"
-    //id("com.moowork.node") version "1.3.1"
     id("com.github.node-gradle.node") version "2.2.0"
     kotlin("jvm") version "1.3.61"
     kotlin("plugin.spring") version "1.3.61"
@@ -53,13 +52,6 @@ tasks.withType<KotlinCompile> {
 
 frontend.nodeVersion.set("13.0.6")
 
-node {
-    download = false
-    // version = "13.06.0"
-    // npmVersion = "6.13.4"
-    distBaseUrl = "https://nodejs.org/dist"
-}
-
 tasks.register<Copy>("processFrontendResources") {
     description = "Process frontend resources"
     from("../master-app/build")
@@ -76,7 +68,7 @@ tasks.named("processResources").configure {
 val installDependencies by tasks.registering(NpmTask::class) {
     setArgs(listOf("install"))
     setExecOverrides(closureOf<ExecSpec> {
-        setWorkingDir("../master-app")
+        setWorkingDir("../masterapp")
     })
 }
 
@@ -87,7 +79,7 @@ val buildWeb by tasks.registering(NpmTask::class) {
 
     setArgs(listOf("run", "build:gradle"))
     setExecOverrides(closureOf<ExecSpec> {
-        setWorkingDir("../master-app")
+        setWorkingDir("../masterapp")
     })
 }
 
