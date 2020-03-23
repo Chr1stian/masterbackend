@@ -52,6 +52,10 @@ tasks.withType<KotlinCompile> {
 
 frontend.nodeVersion.set("13.0.6")
 
+node {
+    download = true
+}
+
 tasks.register<Copy>("processFrontendResources") {
     description = "Process frontend resources"
     from("../master-app/build")
