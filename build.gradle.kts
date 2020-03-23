@@ -54,9 +54,10 @@ tasks.withType<KotlinCompile> {
 frontend.nodeVersion.set("13.0.6")
 
 node {
-    download = true
+    download = false
     // version = "13.06.0"
     // npmVersion = "6.13.4"
+    distBaseUrl = "https://nodejs.org/dist"
 }
 
 tasks.register<Copy>("processFrontendResources") {
