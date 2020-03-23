@@ -6,7 +6,8 @@ plugins {
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     id("org.openjfx.javafxplugin") version "0.0.8"
     id("org.siouan.frontend") version "1.3.0"
-    id("com.moowork.node") version "1.3.1"
+    //id("com.moowork.node") version "1.3.1"
+    id("com.github.node-gradle.node") version "2.2.0"
     kotlin("jvm") version "1.3.61"
     kotlin("plugin.spring") version "1.3.61"
 }
@@ -54,6 +55,8 @@ frontend.nodeVersion.set("13.0.6")
 
 node {
     download = true
+    // version = "13.06.0"
+    // npmVersion = "6.13.4"
 }
 
 tasks.register<Copy>("processFrontendResources") {
