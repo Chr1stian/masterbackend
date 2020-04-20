@@ -54,7 +54,7 @@ frontend.nodeVersion.set("13.0.6")
 
 tasks.register<Copy>("processFrontendResources") {
     description = "Process frontend resources"
-    from("../master-app/build")
+    from("../masterapp/build")
     into("${project.buildDir}/resources/main")
     dependsOn(tasks.named("assembleFrontend"))
 }

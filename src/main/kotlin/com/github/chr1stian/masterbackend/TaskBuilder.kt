@@ -52,7 +52,7 @@ fun buildTask(task: Task): DOMSource {
     responseDeclaration.appendChild(mapping)
 
     doc.firstChild.attributes.getNamedItem("title").textContent = task.label
-
+    doc.firstChild.attributes.getNamedItem("identifier").textContent = task.label
 
     var source = DOMSource(doc)
     return source
