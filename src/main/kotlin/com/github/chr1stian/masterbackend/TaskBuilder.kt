@@ -21,9 +21,11 @@ fun buildTask(task: Task): DOMSource {
     var answerNumbers: MutableList<Int> = (1..(task.splitCode.count { e -> e.size != 1 })).toList().toMutableList()
     var gapNumber = 1
 
+    val pre = doc.createElement("pre")
     for (code in task.splitCode) {
 
-        blockquote.appendChild(createBlockQuote(doc = doc, code = code, gapNumber = gapNumber))
+        createBlockQuote(doc = doc, code = code, gapNumber = gapNumber, element = pre)
+
 
 
         if (code.size != 1) {
@@ -39,6 +41,8 @@ fun buildTask(task: Task): DOMSource {
             gapNumber++
         }
     }
+
+    blockquote.appendChild(pre)
 
     // Add distractors
     for (code in task.distractors) {
@@ -74,22 +78,17 @@ fun createGapText(doc: Document, code: String, answerNumber: Int): Document {
 }
 
 // Blockquote | The surrounding text/code with GAPS (drop-fields) [splitCode = both]
-fun createBlockQuote(doc: Document, code: Array<String>, gapNumber: Int): Element? {
-
-    return if (code.size == 1) {
-        val element = doc.createElement("p")
-        element.appendChild(doc.createTextNode(code[0]))
-        element
+fun createBlockQuote(doc: Document, code: Array<String>, gapNumber: Int, element: Element): Element {
+    if (code.size == 1) {
+        element.appendChild(doc.createTextNode(code[0] + "\n"))
     } else {
-        val element = doc.createElement("p")
         element.appendChild(doc.createTextNode(code[0]))
         val gap = doc.createElement("gap")
         gap.setAttribute("identifier", "GAP$gapNumber")
         element.appendChild(gap)
-        element.appendChild(doc.createTextNode(code[2]))
-        element
-
+        element.appendChild(doc.createTextNode(code[2] + "\n"))
     }
+    return element
 
 }
 
